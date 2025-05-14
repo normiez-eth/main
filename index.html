@@ -16,13 +16,15 @@
         }
         .responsive-wrapper {
             width: 90%; /* Lebar kontainer adalah 90% dari viewport */
-            max-width: 1280px; /* Lebar maksimum kontainer, sesuai lebar gambar asli */
+            /* max-width akan secara efektif dibatasi oleh lebar perangkat di mode portrait */
+            max-width: 1280px; /* Lebar maksimum kontainer, terutama untuk landscape */
             margin: auto; /* Menengahkan kontainer */
         }
         .background-container {
             position: relative; /* Dasar untuk elemen anak yang diposisikan absolut */
             width: 100%; /* Mengisi lebar .responsive-wrapper */
-            padding-bottom: 56.25%; /* Menjaga rasio aspek 16:9 (tinggi/lebar * 100%) */
+            /* Default aspect ratio (misalnya untuk desktop/landscape) 16:9 */
+            padding-bottom: 56.25%; /* (720 / 1280) * 100% */
             background-image: url('https://raw.githubusercontent.com/zio06/degods/assets/background1.jpg');
             background-size: cover; /* Memastikan gambar menutupi kontainer, menjaga rasio aspeknya */
             background-position: center; /* Menengahkan gambar */
@@ -34,7 +36,7 @@
             text-decoration: none; /* Menghilangkan garis bawah link */
             background-color: transparent; /* Membuat area tombol tidak terlihat (transparan) */
             /* Untuk debug, Anda bisa uncomment baris di bawah untuk melihat batas tombol: */
-            /* border: 1px dashed white; */
+            /* border: 1px dashed rgba(0,0,0,0.3); */
         }
 
         /* Posisi dan ukuran tombol dihitung sebagai persentase dari dimensi gambar induk (1280x720) */
@@ -63,6 +65,32 @@
             width: calc(55 / 1280 * 100%);
             height: calc(50 / 720 * 100%);
         }
+
+        /* Media Query untuk orientasi portrait (misalnya di smartphone) */
+        /* Ini akan mengubah aspect ratio container menjadi 9:16 */
+        @media (orientation: portrait) {
+            .background-container {
+                /* Aspect ratio 9:16 (tinggi 16, lebar 9) */
+                /* padding-bottom = (16 / 9) * 100% */
+                padding-bottom: 177.7778%;
+            }
+
+            /* Anda mungkin perlu menyesuaikan max-width dari wrapper jika diinginkan untuk portrait */
+            /* Misalnya, jika Anda ingin wrapper mengambil lebih banyak ruang di portrait: */
+            /*
+            .responsive-wrapper {
+                width: 95%;
+            }
+            */
+        }
+
+        /* Jika Anda ingin lebih spesifik untuk smartphone (lebar layar kecil DAN portrait): */
+        /* @media (max-width: 600px) and (orientation: portrait) {
+            .background-container {
+                padding-bottom: 177.7778%;
+            }
+        } */
+
     </style>
 </head>
 <body>
