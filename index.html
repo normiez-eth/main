@@ -1,211 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Links - Image Layout</title>
+    <title>DeGods y00ts Overlay Responsif</title>
     <style>
-        /* Basic Reset */
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            font-family: sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scroll if content slightly overflows */
-        }
-
-        body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #73c2fb; /* Fallback color similar to sky */
+            background-color: #f0f0f0; /* Fallback background */
         }
 
-        .site-wrapper {
-            position: relative; /* Establishes positioning context for absolute children */
-            width: 100%;
-            max-width: 1280px; /* Max width of your original image, adjust if needed */
-            /* Maintain aspect ratio of the background. (e.g., 1280x720 -> 720/1280 = 0.5625) */
-            /* You might need to adjust this aspect-ratio if your background has different dimensions */
-            aspect-ratio: 1280 / 720;
-            margin: auto; /* Center the wrapper */
-            overflow: hidden; /* Clip anything outside this box */
+        .responsive-wrapper {
+            width: 90%; /* Ambil 90% lebar viewport, bisa disesuaikan */
+            max-width: 1280px; /* Batas maksimum agar tidak terlalu besar di layar desktop */
+            margin: auto; /* Tengahkan wrapper jika lebarnya kurang dari 100% */
         }
 
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/Background1.png');
-            background-size: cover; /* Cover ensures the image fills the container, might crop */
-            background-position: center center;
+        .background-container {
+            position: relative; /* Untuk positioning absolut anak-anaknya */
+            width: 100%; /* Mengisi lebar .responsive-wrapper */
+            padding-bottom: 56.25%; /* (720 / 1280) * 100% -> untuk menjaga aspect ratio 16:9 */
+            background-image: url('https://raw.githubusercontent.com/zio06/degods/assets/background1.jpg');
+            background-size: cover;
+            background-position: center;
             background-repeat: no-repeat;
-            z-index: 1;
+            /* border: 1px solid #ccc; */ /* Optional: untuk melihat batas kontainer */
         }
 
-        /* Common Cloud Button Styling */
-        .cloud-button {
-            position: absolute; /* Key for precise placement */
-            display: block;
-            text-decoration: none;
-            transition: transform 0.2s ease-in-out;
-            z-index: 2; /* Ensure buttons are above the background */
+        .overlay-button {
+            position: absolute;
+            display: block; /* Pastikan anchor tag berperilaku seperti block untuk ukuran */
+            text-decoration: none; /* Hapus garis bawah default pada link */
+            background-color: transparent; /* Membuat semua tombol transparan */
+            /* Untuk debug, jika Anda ingin melihat area tombol, Anda bisa tambahkan border sementara: */
+            /* border: 1px dashed rgba(255, 255, 255, 0.5); */
         }
 
-        .cloud-button img {
-            display: block;
-            width: 100%; /* Image will fill the width of its 'a' tag parent */
-            height: auto;
-            /* border-radius: 15px; */ /* Optional: if you want rounded corners on images */
+        /* Perhitungan Persentase: (nilai_pixel_asli / dimensi_induk_asli) * 100 */
+
+        /* Tombol Merah untuk "DeGods" */
+        #red-button {
+            top: calc(175 / 720 * 100%);
+            left: calc(290 / 1280 * 100%);
+            width: calc(700 / 1280 * 100%);
+            height: calc(185 / 720 * 100%);
         }
 
-        .cloud-button:hover {
-            transform: scale(1.08); /* Default hover scale */
+        /* Tombol Hijau untuk "y00ts" */
+        #green-button {
+            top: calc(420 / 720 * 100%);
+            left: calc(360 / 1280 * 100%);
+            width: calc(560 / 1280 * 100%);
+            height: calc(145 / 720 * 100%);
         }
 
-        /* --- Specific Button Positions and Sizes --- */
-        /* Values are percentages of the .site-wrapper dimensions. */
-        /* You WILL need to fine-tune these top, left, width percentages */
-        /* by testing and inspecting in your browser to match your image precisely. */
-
-        /* Button 1: DeGods Normiez (Large, Top-ish Center) */
-        #degods-normiez-button {
-            width: 45%; /* Approximate width from image */
-            top: 26%;   /* Approximate top from image */
-            left: 50%;
-            transform: translateX(-50%) scale(1); /* Center horizontally, then apply hover scale */
-        }
-        #degods-normiez-button:hover {
-            transform: translateX(-50%) scale(1.08);
+        /* Tombol Oranye untuk "X" */
+        #orange-button {
+            top: calc(655 / 720 * 100%);
+            left: calc(514 / 1280 * 100%);
+            width: calc(50 / 1280 * 100%);
+            height: calc(50 / 720 * 100%);
         }
 
-        /* Button 2: y00ts Normiez (Large, Middle-ish Center) */
-        #yoots-normiez-button {
-            width: 35%;
-            top: 46%;
-            left: 50%;
-            transform: translateX(-50%) scale(1);
+        /* Tombol Abu-abu untuk "DE" */
+        #grey-button {
+            top: calc(653 / 720 * 100%);
+            left: calc(755 / 1280 * 100%);
+            width: calc(55 / 1280 * 100%);
+            height: calc(50 / 720 * 100%);
         }
-        #yoots-normiez-button:hover {
-            transform: translateX(-50%) scale(1.08);
-        }
-
-        /* Button 3: X (Twitter) (Small, Bottom-Left of Center) */
-        #x-button {
-            width: 6%; /* Smaller button */
-            top: 82%;
-            left: 38%; /* Adjust to position left of "Made by Normiez" */
-            transform: translate(-50%, -50%) scale(1); /* Center on its anchor point */
-        }
-        #x-button:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-        }
-
-        /* Button 4: DE (degods.com link) (Small, Bottom-Right of Center) */
-        #degods-official-button {
-            width: 7%; /* Small, similar to X */
-            top: 82%;
-            left: 62%; /* Adjust to position right of "Made by Normiez" */
-            transform: translate(-50%, -50%) scale(1);
-        }
-        #degods-official-button:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-        }
-
-        /* Button 5: Made by Normiez (Small, Bottom-Center) */
-        #madeby-button {
-            width: 18%; /* Moderate size */
-            top: 82%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        #madeby-button:hover {
-            transform: translate(-50%, -50%) scale(1.08);
-        }
-
-        /* Responsive Adjustments for very small screens if needed */
-        /* The percentage-based layout should scale well, but you might want to adjust hover effects or minimum sizes */
-        @media (max-width: 480px) {
-            /* Example: reduce hover effect slightly on tiny screens if it feels too much */
-            /* .cloud-button:hover {
-                transform: scale(1.05);
-            }
-            #degods-normiez-button:hover { transform: translateX(-50%) scale(1.05); }
-            #yoots-normiez-button:hover { transform: translateX(-50%) scale(1.05); }
-            #x-button:hover { transform: translate(-50%, -50%) scale(1.05); }
-            #degods-official-button:hover { transform: translate(-50%, -50%) scale(1.05); }
-            #madeby-button:hover { transform: translate(-50%, -50%) scale(1.05); } */
-
-            /* You could also slightly adjust widths or positions if overlap becomes an issue */
-        }
-
     </style>
 </head>
 <body>
 
-    <div class="site-wrapper">
-        <div class="background-image"></div>
-
-        <!-- Button 1: DeGods Normiez -->
-        <a href="http://degods.normiez.run.place/" target="_blank" rel="noopener noreferrer" class="cloud-button" id="degods-normiez-button">
-            <img src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/degods%20cloud%20text.Png" alt="DeGods Normiez Link">
-        </a>
-
-        <!-- Button 2: y00ts Normiez -->
-        <a href="http://y00ts.normiez.run.place/" target="_blank" rel="noopener noreferrer" class="cloud-button" id="yoots-normiez-button">
-            <img src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/y00ts%20cloud%20text.png" alt="y00ts Normiez Link">
-        </a>
-
-        <!-- Button 3: X (Twitter) -->
-        <a href="https://x.com/normiez_eth" target="_blank" rel="noopener noreferrer" class="cloud-button" id="x-button">
-            <img src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/x%20cloud%20text.png" alt="X (Twitter) Link for normiez_eth">
-        </a>
-
-        <!-- Button 4: DE (degods.com) - Using the DeGods cloud text image as per request for this link -->
-        <a href="http://degods.com" target="_blank" rel="noopener noreferrer" class="cloud-button" id="degods-official-button">
-            <img src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/degods%20cloud%20text.Png" alt="DeGods Official Website Link (DE)">
-        </a>
-
-        <!-- Button 5: Made by Normiez -->
-        <a href="#" class="cloud-button" id="madeby-button">
-            <!-- Update href if there's a specific link -->
-            <img src="https://raw.githubusercontent.com/zio06/degods/refs/heads/assets/made%20by%20normiez%20cloud%20text.png" alt="Made by Normiez">
-        </a>
+    <div class="responsive-wrapper">
+        <div class="background-container">
+            <a id="red-button" class="overlay-button" href="https://degods.normiez.run.place/" target="_blank" rel="noopener noreferrer"></a>
+            <a id="green-button" class="overlay-button" href="https://y00ts.normiez.run.place/" target="_blank" rel="noopener noreferrer"></a>
+            <!-- Tombol Oranye kembali menggunakan href dan target standar -->
+            <a id="orange-button" class="overlay-button" href="https://x.com/normiez_eth/" target="_blank" rel="noopener noreferrer"></a>
+            <a id="grey-button" class="overlay-button" href="https://degods.com/" target="_blank" rel="noopener noreferrer"></a>
+        </div>
     </div>
 
-    <script>
-        // Script for Button 3: X (Twitter) specific behavior
-        const twitterButton = document.getElementById('x-button');
-        if (twitterButton) {
-            twitterButton.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-
-                const twitterUserUrl = 'https://x.com/normiez_eth';
-                const isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-                if (isMobileDevice) {
-                    // On mobile, direct to web, which often prompts to open app
-                    window.location.href = twitterUserUrl;
-                } else {
-                    // On desktop, open in a new tab
-                    window.open(twitterUserUrl, '_blank', 'noopener,noreferrer');
-                }
-            });
-        }
-
-        // Optional: If "Made by Normiez" button should do something specific via JS
-        const madeByButtonJs = document.getElementById('madeby-button'); // Renamed variable to avoid conflict
-        if (madeByButtonJs && madeByButtonJs.getAttribute('href') === '#') {
-            madeByButtonJs.addEventListener('click', function(event) {
-                event.preventDefault();
-                alert('"Made by Normiez" clicked! Update the link in the HTML.');
-                // Example: window.location.href = 'your-normiez-creator-link.com';
-            });
-        }
-    </script>
+    <!-- Tidak ada JavaScript yang dibutuhkan untuk fungsionalitas ini -->
 
 </body>
 </html>
