@@ -1,106 +1,182 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeGods y00ts Overlay Responsif</title>
+    <title>Normiez Interactive Page - Optimized</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
+            height: 100%;
+            font-family: sans-serif;
+            overflow: hidden; /* Prevents scrollbars if content slightly overflows */
+        }
+
+        .background-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover; /* Ensures background covers the area, may crop */
+            background-position: center; /* Centers the background image */
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            background-color: #f0f0f0; /* Warna latar belakang fallback */
-        }
-        .responsive-wrapper {
-            width: 90%; /* Lebar kontainer adalah 90% dari viewport */
-            /* max-width akan secara efektif dibatasi oleh lebar perangkat di mode portrait */
-            max-width: 1280px; /* Lebar maksimum kontainer, terutama untuk landscape */
-            margin: auto; /* Menengahkan kontainer */
-        }
-        .background-container {
-            position: relative; /* Dasar untuk elemen anak yang diposisikan absolut */
-            width: 100%; /* Mengisi lebar .responsive-wrapper */
-            /* Default aspect ratio (misalnya untuk desktop/landscape) 16:9 */
-            padding-bottom: 56.25%; /* (720 / 1280) * 100% */
-            background-image: url('https://raw.githubusercontent.com/zio06/degods/assets/background1.jpg');
-            background-size: cover; /* Memastikan gambar menutupi kontainer, menjaga rasio aspeknya */
-            background-position: center; /* Menengahkan gambar */
-            background-repeat: no-repeat; /* Mencegah gambar berulang */
-        }
-        .overlay-button {
-            position: absolute; /* Diposisikan relatif terhadap .background-container */
-            display: block; /* Agar bisa diberi width dan height */
-            text-decoration: none; /* Menghilangkan garis bawah link */
-            background-color: transparent; /* Membuat area tombol tidak terlihat (transparan) */
-            /* Untuk debug, Anda bisa uncomment baris di bawah untuk melihat batas tombol: */
-            /* border: 1px dashed rgba(0,0,0,0.3); */
         }
 
-        /* Posisi dan ukuran tombol dihitung sebagai persentase dari dimensi gambar induk (1280x720) */
-        /* Ini membuat mereka skalisasi secara proporsional dengan gambar latar */
-        #red-button {
-            top: calc(175 / 720 * 100%);
-            left: calc(290 / 1280 * 100%);
-            width: calc(700 / 1280 * 100%);
-            height: calc(185 / 720 * 100%);
-        }
-        #green-button {
-            top: calc(420 / 720 * 100%);
-            left: calc(360 / 1280 * 100%);
-            width: calc(560 / 1280 * 100%);
-            height: calc(145 / 720 * 100%);
-        }
-        #orange-button {
-            top: calc(655 / 720 * 100%);
-            left: calc(514 / 1280 * 100%);
-            width: calc(50 / 1280 * 100%);
-            height: calc(50 / 720 * 100%);
-        }
-        #grey-button {
-            top: calc(653 / 720 * 100%);
-            left: calc(755 / 1280 * 100%);
-            width: calc(55 / 1280 * 100%);
-            height: calc(50 / 720 * 100%);
+        .icons-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px; /* Small gap between DeGods and y00ts */
         }
 
-        /* Media Query untuk orientasi portrait (misalnya di smartphone) */
-        /* Ini akan mengubah aspect ratio container menjadi 9:16 */
-        @media (orientation: portrait) {
-            .background-container {
-                /* Aspect ratio 9:16 (tinggi 16, lebar 9) */
-                /* padding-bottom = (16 / 9) * 100% */
-                padding-bottom: 177.7778%;
-            }
+        .overlay-icon-link {
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 10;
+            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            display: inline-block; /* So the link wraps the image tightly */
+        }
 
-            /* Anda mungkin perlu menyesuaikan max-width dari wrapper jika diinginkan untuk portrait */
-            /* Misalnya, jika Anda ingin wrapper mengambil lebih banyak ruang di portrait: */
+        .overlay-icon-link:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* Responsive styling for DeGods and y00ts icons */
+        .custom-icon-img {
+            display: block; /* Removes extra space below image */
             /*
-            .responsive-wrapper {
-                width: 95%;
-            }
+                Scales with viewport width, up to a maximum pixel value.
+                Adjust base vw and max-width based on desired appearance.
+                Original image should be at least as wide as max-width for best quality.
             */
+            width: 60vw;        /* Primary scaling based on viewport width */
+            max-width: 500px;   /* Maximum width on larger screens */
+            min-width: 150px;   /* Minimum width on very small screens to maintain visibility */
+            height: auto;       /* Maintain aspect ratio */
         }
 
-        /* Jika Anda ingin lebih spesifik untuk smartphone (lebar layar kecil DAN portrait): */
-        /* @media (max-width: 600px) and (orientation: portrait) {
-            .background-container {
-                padding-bottom: 177.7778%;
-            }
-        } */
+        /* Positioning for the "Made by Normiez" icon link */
+        .normiez-icon-link {
+            position: absolute;
+            bottom: 20px;     /* Distance from the bottom */
+            left: 51%;
+            transform: translateX(-50%); /* Precise horizontal centering */
+        }
+        
+        .normiez-icon-link:hover {
+             transform: translateX(-50%) scale(1.05);
+             opacity: 0.9;
+        }
 
+        /* Responsive styling for the "Made by Normiez" image */
+        .normiez-icon-img {
+            display: block;
+            /*
+                Smaller icon, scales with viewport, with min/max caps.
+                Ensure it's proportionally smaller than the main icons.
+            */
+            width: 30vw;        /* Base width relative to viewport */
+            max-width: 130px;   /* Max width on larger screens */
+            min-width: 70px;    /* Min width to ensure it's not too tiny */
+            height: auto;       /* Maintain aspect ratio */
+        }
     </style>
 </head>
 <body>
-    <div class="responsive-wrapper">
-        <div class="background-container">
-            <a id="red-button" class="overlay-button" href="https://degods.normiez.run.place/" target="_blank" rel="noopener noreferrer"></a>
-            <a id="green-button" class="overlay-button" href="https://y00ts.normiez.run.place/" target="_blank" rel="noopener noreferrer"></a>
-            <a id="orange-button" class="overlay-button" href="https://x.com/normiez_eth/" target="_blank" rel="noopener noreferrer"></a>
-            <a id="grey-button" class="overlay-button" href="https://degods.com/" target="_blank" rel="noopener noreferrer"></a>
+
+    <div class="background-container" id="backgroundContainer">
+        <div class="icons-wrapper">
+            <!-- DeGods Icon -->
+            <a href="https://degods.normiez.run.place" target="_blank" id="degodsIconLink" class="overlay-icon-link" aria-label="DeGods Information">
+                <img src="#" alt="DeGods Icon" class="custom-icon-img" id="degodsIconImage">
+            </a>
+
+            <!-- y00ts Icon -->
+            <a href="https://y00ts.normiez.run.place" target="_blank" id="y00tsIconLink" class="overlay-icon-link" aria-label="y00ts Information">
+                <img src="#" alt="y00ts Icon" class="custom-icon-img" id="y00tsIconImage">
+            </a>
         </div>
+
+        <!-- Made by Normiez Icon -->
+        <a href="#" id="normiezIconLink" class="overlay-icon-link normiez-icon-link" aria-label="Made by Normiez">
+            <img src="#" alt="Made by Normiez Icon" class="normiez-icon-img" id="normiezIconImage">
+        </a>
     </div>
+
+    <script>
+        // Store Base64 encoded image URLs in JavaScript
+        const encodedImageSources = {
+            background: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9CYWNrZ3JvdW5kMS5wbmc=',
+            degods: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9kZWdvZHMucG5n',
+            y00ts: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy95MDB0cy5wbmc=',
+            normiez: 'aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3ppbzA2L2RlZ29kcy9yZWZzL2hlYWRzL2Fzc2V0cy9tYWRlJTIwYnklMjBub3JtaWV6LnBuZw=='
+        };
+
+        function decodeBase64(encodedString) {
+            try {
+                return atob(encodedString);
+            } catch (e) {
+                console.error("Failed to decode Base64 string:", encodedString, e);
+                return "";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const bgContainer = document.getElementById('backgroundContainer');
+            if (bgContainer) {
+                bgContainer.style.backgroundImage = `url('${decodeBase64(encodedImageSources.background)}')`;
+            }
+
+            const degodsImg = document.getElementById('degodsIconImage');
+            if (degodsImg) {
+                degodsImg.src = decodeBase64(encodedImageSources.degods);
+            }
+
+            const y00tsImg = document.getElementById('y00tsIconImage');
+            if (y00tsImg) {
+                y00tsImg.src = decodeBase64(encodedImageSources.y00ts);
+            }
+
+            const normiezImg = document.getElementById('normiezIconImage');
+            if (normiezImg) {
+                normiezImg.src = decodeBase64(encodedImageSources.normiez);
+            }
+        });
+
+        const normiezLinkElement = document.getElementById('normiezIconLink');
+        if (normiezLinkElement) {
+            normiezLinkElement.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                const webUrl = 'https://x.com/normiez_eth';
+                const appUrl = 'twitter://user?screen_name=normiez_eth'; 
+                const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+                if (isMobile) {
+                    let appOpened = false;
+                    const timeout = 1200; 
+                    const visibilityHandler = () => {
+                        if (document.hidden) {
+                            appOpened = true;
+                            document.removeEventListener('visibilitychange', visibilityHandler);
+                        }
+                    };
+                    document.addEventListener('visibilitychange', visibilityHandler);
+                    window.location.href = appUrl;
+                    setTimeout(() => {
+                        document.removeEventListener('visibilitychange', visibilityHandler); 
+                        if (!document.hidden && !appOpened) {
+                            window.location.href = webUrl; 
+                        }
+                    }, timeout);
+                } else {
+                    window.open(webUrl, '_blank');
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>
